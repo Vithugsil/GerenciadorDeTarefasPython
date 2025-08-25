@@ -73,6 +73,9 @@ def logout():
 
 @app.route('/dashboard')
 def dashboard():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
     events = Evento.query.all()
 
     current_user_id = session.get('user_id')
@@ -137,8 +140,20 @@ def edit_event(event_id):
 
 @app.route('/delete_event/<int:event_id>', methods=['POST'])
 def delete_event(event_id):
-    pass
+    Evento.query.filter_by(id=event_id).delete()
+    db.session.commit()
+    return redirect(url_for('dashboard'))
 
+@app.route('/perfil')
+def perfil():
+
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    current_user_id = session.get('user_id')
+    user = User.query.filter_by(id=current_user_id).first()
+
+    return render_template('perfil.html', usuario=user.username)
 
 if __name__ == '__main__':
     app.run(debug=True)
