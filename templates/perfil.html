@@ -8,10 +8,10 @@
 
     <h1>Perfil do {{usuario}}</h1>
 
-    {{post}}
+    {{posts}}
 
     {% for p in posts: %}
-        <h3> {{ p }} </h3>
+        <h3> {{ p.nome }} </h3>
     {% endfor %}
 
     <a href="{{ url_for('home') }}">Home</a>

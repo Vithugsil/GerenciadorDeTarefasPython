@@ -152,8 +152,10 @@ def perfil():
     
     current_user_id = session.get('user_id')
     user = User.query.filter_by(id=current_user_id).first()
+    
+    posts = Evento.query.filter_by(id_usuario=current_user_id).all()
 
-    return render_template('perfil.html', usuario=user.username)
+    return render_template('perfil.html', usuario=user.username, posts=posts)
 
 if __name__ == '__main__':
     app.run(debug=True)
